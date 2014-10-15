@@ -1,7 +1,7 @@
 # test file
-import chord
+from pitchspace import PitchSpace
 
-c = chord.Chord([0,4,7,10])
+c = PitchSpace([0,4,7,10])
 print c
 
 print len(c)

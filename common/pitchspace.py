@@ -1,4 +1,5 @@
-# The chord class
+# The PitchSpace class
+# Represents generalized 12-pitchspace elements which can be chords.
 
 class PitchSpace:
 
@@ -30,7 +31,12 @@ class PitchSpace:
             new_string = ""
             for c in clock[note]:
                 if c == ".":
-                    new_string += str(note)
+                    if note == 10:
+                        new_string += 'a'
+                    elif note == 11:
+                        new_string += 'b'
+                    else:
+                        new_string += str(note)
                 else:
                     new_string += c
             clock[note] = new_string
@@ -63,17 +69,31 @@ class PitchSpace:
         '''
         rotate clockwise by 30 degrees 
         transpose chord into key one half step higher
+        can handle anti-clockwise rotations as well (enter negative n)
         '''
+        n = n%12
         for j in range(n):
             for i in range(len(self.notes)):
                 self.notes[i] = (self.notes[i] + 1) % 12
 
     def flip(self, n=0):
         '''
-        flip about 0-6 axis
-        (not sure what a flip means musically)
+        flip about 0-6 (or any other) axis
+        This musical operation is called "inversion"
         '''
+        n = n%12
         for i in range(len(self.notes)):
             self.notes[i] = (-self.notes[i] + n) % 12
+
+    # def normalize(self):
+    #     '''
+    #     '''
+    #     min_diff = 12
+    #     current_diff = max(self.notes) - min(self.notes)
+
+    #     while 0 not in self.notes:
+    #         self.rotate()
+            
+
 
 # Find out and code up normal, prime forms. chord equivalence classes,

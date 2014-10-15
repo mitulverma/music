@@ -14,4 +14,6 @@ class Scale:
     def __repr__(self):
         """
         """
-        return music.smoosh(music.convert(self.notes))
+        return music.smoosh(music.numToAlpha(self.notes))
+## Add all the other functionality
+## complete this class dammit
