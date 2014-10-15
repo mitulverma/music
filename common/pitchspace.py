@@ -71,19 +71,17 @@ class PitchSpace:
         transpose chord into key one half step higher
         can handle anti-clockwise rotations as well (enter negative n)
         '''
-        n = n%12
+        n = n % 12
         for j in range(n):
-            for i in range(len(self.notes)):
-                self.notes[i] = (self.notes[i] + 1) % 12
+            self.notes[:] = [(note + 1) % 12 for note in self.notes]
 
     def flip(self, n=0):
         '''
         flip about 0-6 (or any other) axis
         This musical operation is called "inversion"
         '''
-        n = n%12
-        for i in range(len(self.notes)):
-            self.notes[i] = (-self.notes[i] + n) % 12
+        n = n % 12
+        self.notes[:] = [(-note + n) % 12 for note in self.notes]
 
     # def normalize(self):
     #     '''
@@ -93,7 +91,7 @@ class PitchSpace:
 
     #     while 0 not in self.notes:
     #         self.rotate()
-            
+
 
 
 # Find out and code up normal, prime forms. chord equivalence classes,
