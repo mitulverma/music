@@ -1,10 +1,8 @@
 # test file
 from pitchspace import PitchSpace
 
-c = PitchSpace([0,4,7,10])
+c = PitchSpace([0,4,7])
 print c
-
-print len(c)
 
 # for i in range(12):
 #     c.rotate()
@@ -14,5 +12,10 @@ c.flip()
 print c
 
 
-c.rotate(7)
+print "\n ------------------------------------------- \n"
+
+c.minimizeRange()
+
 print c
+print c.flips
+print c.rotations

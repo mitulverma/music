@@ -9,6 +9,10 @@ class Scale:
         """
         if type(notes) == str:
             notes = music.convert(music.smash(notes))
+
+        elif type(notes) == list:
+            if type(notes[0]) = 
+
         self.notes = notes
 
     def __repr__(self):

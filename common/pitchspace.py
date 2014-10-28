@@ -1,6 +1,8 @@
 # The PitchSpace class
 # Represents generalized 12-pitchspace elements which can be chords.
 
+import copy
+
 class PitchSpace:
 
     def __init__(self, notes):
@@ -9,6 +11,9 @@ class PitchSpace:
         '''
         notes.sort()
         self.notes = notes
+        
+        self.rotations = 0
+        self.flips = 0
 
     def __repr__(self):
         '''
@@ -57,23 +62,27 @@ class PitchSpace:
     def __eq__(self, other):
         '''
         '''
-        return self.notes == other.notes
+        return self.notes == other.notes and self.rotations == other.rotations and self.flips == other.flips
 
     def __ne__(self, other):
         '''
         '''
-        return self.notes != other.notes
+        return not self == other
 
 
     def rotate(self, n=1):
         '''
         rotate clockwise by 30 degrees 
-        transpose chord into key one half step higher
+        transpose chord into key a half step higher
         can handle anti-clockwise rotations as well (enter negative n)
         '''
         n = n % 12
         for j in range(n):
             self.notes[:] = [(note + 1) % 12 for note in self.notes]
+            self.rotations = (self.rotations + 1) % 12
+        
+        self.notes.sort() ## put notes in ascending order
+        ## PRONE TO CONFLICT WITH "NORMAL" FORM
 
     def flip(self, n=0):
         '''
@@ -82,16 +91,73 @@ class PitchSpace:
         '''
         n = n % 12
         self.notes[:] = [(-note + n) % 12 for note in self.notes]
+        self.flips = (self.flips + 1) % 2
 
-    # def normalize(self):
-    #     '''
-    #     '''
-    #     min_diff = 12
-    #     current_diff = max(self.notes) - min(self.notes)
+        self.notes.sort()
 
-    #     while 0 not in self.notes:
-    #         self.rotate()
+    def range(self):
+        '''
+        '''
+        return max(self.notes) - min(self.notes)
+
+    def minimizeRange(self):
+        '''
+        FIXME: Please make this function less shitty. it is really shitty.
+        thanks.
+        '''
+        copies = []
+
+        if 0 in self.notes:
+            orig = copy.deepcopy(self)
+            copies.append(orig)
+
+        for i in range(11):
+            self.rotate()
+            if 0 in self.notes:
+                valid_copy = copy.deepcopy(self)
+                copies.append(valid_copy)
+
+        self.rotate()
+
+        min_range = 12
+
+        for item in copies:
+            #print item, item.range()
+            if item.range() < min_range:
+                min_range = item.range()
+                rotate_by = item.rotations
+
+        self.rotate(rotate_by)
 
 
 
+        
 # Find out and code up normal, prime forms. chord equivalence classes,
+
+# Write printInfo method
+
+
+    # def __init__(self, orig=None, notes=[]):
+    #     '''
+    #     notes is a list (set) with integers between 0 and 11 (inclusive).
+    #     '''
+    #     if orig is None:
+    #         self.defaultConstructor(notes)
+
+    #     else:
+    #         self.copyConstructor(orig)
+        
+    # def defaultConstructor(self, notes):
+    #     '''
+    #     '''
+    #     notes.sort()
+    #     self.notes = notes
+        
+    #     self.rotations = 0
+    #     self.flips = 0
+
+
+    # def copyConstructor(self, orig):
+    #     '''
+    #     '''
+    #     self = copy.deepcopy(orig)
